@@ -5,13 +5,18 @@ class Solution:
         :rtype: int
         """
         lenthls=[]
-        for word in words:
-        	lenthls.append(len(word))
-        while len(words) > 1:
-	        word1 = words.index(max(lenthls))
-	        words.pop(index(max(lenthls)))
-	        word2 = words.index(max(lenthls))
-	        for character in word1:
-	        	if character in word2:
-	        		continue
-	        
+        multilen=0
+        hashvalue=[]
+        words.sort(key = lambda i:len(i), reverse=True)
+        for i in range(len(words)):
+            hashvalue.append(0)
+            for j in set(words[i]):
+                hashvalue[i] += 2**(ord(j)-ord('a'))
+        max = 0
+        for i in range(len(words)):
+            for j in range(i+1,len(words)):
+                if not (hashvalue[i] & hashvalue[j]):
+                    multilen=len(words[i])*len(words[j])
+                    if multilen > max:
+                        max = multilen
+        return max
